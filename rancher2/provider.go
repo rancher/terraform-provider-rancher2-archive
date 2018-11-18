@@ -79,6 +79,7 @@ func Provider() terraform.ResourceProvider {
 			"rancher2_project":                       resourceRancher2Project(),
 			"rancher2_project_role_template_binding": resourceRancher2ProjectRoleTemplateBinding(),
 			"rancher2_namespace":                     resourceRancher2Namespace(),
+			"rancher2_namespace_move":                resourceRancher2NamespaceMove(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{
