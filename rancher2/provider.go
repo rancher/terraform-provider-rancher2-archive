@@ -20,6 +20,7 @@ type CLIConfig struct {
 	URL       string `json:"url"`
 	Project   string `json:"project"`
 	Path      string `json:"path,omitempty"`
+	Insecure  bool   `json:"insecure,omitempty"`
 }
 
 // Provider returns a terraform.ResourceProvider.
@@ -61,6 +62,12 @@ func Provider() terraform.ResourceProvider {
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("RANCHER_CLIENT_CONFIG", ""),
 				Description: descriptions["config"],
+			},
+			"insecure": &schema.Schema{
+				Type:        schema.TypeBool,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("RANCHER_INSECURE", false),
+				Description: descriptions["insecure"],
 			},
 		},
 
@@ -106,6 +113,8 @@ func init() {
 		"api_url": "The URL to the rancher API",
 
 		"config": "Path to the Rancher client cli.json config file",
+
+		"insecure": "Allow insecure server connections when using SSL",
 	}
 }
 
@@ -115,6 +124,7 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	secretKey := d.Get("secret_key").(string)
 	tokenKey := d.Get("token_key").(string)
 	caCerts := d.Get("ca_certs").(string)
+	insecure := d.Get("insecure").(bool)
 
 	if configFile := d.Get("config").(string); configFile != "" {
 		config, err := loadConfig(configFile)
@@ -145,6 +155,10 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 		if caCerts == "" {
 			caCerts = config.CACerts
 		}
+
+		if insecure == false {
+			insecure = config.Insecure
+		}
 	}
 
 	if apiURL == "" {
@@ -157,6 +171,7 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 		SecretKey: secretKey,
 		TokenKey:  tokenKey,
 		CACerts:   caCerts,
+		Insecure:  insecure,
 	}
 
 	_, err := config.ManagementClient()

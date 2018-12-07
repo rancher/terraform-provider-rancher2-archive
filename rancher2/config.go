@@ -27,6 +27,7 @@ type Config struct {
 	CACerts   string `json:"cacert"`
 	ClusterID string `json:"clusterId"`
 	ProjectID string `json:"projectId"`
+	Insecure  bool   `json:"insecure"`
 	Client    Client
 }
 
@@ -114,6 +115,7 @@ func (c *Config) CreateClientOpts() *clientbase.ClientOpts {
 		SecretKey: c.SecretKey,
 		TokenKey:  c.TokenKey,
 		CACerts:   c.CACerts,
+		Insecure:  c.Insecure,
 	}
 
 	return options
