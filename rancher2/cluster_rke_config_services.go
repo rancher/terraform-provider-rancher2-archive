@@ -97,6 +97,11 @@ func kubeletFields() map[string]*schema.Schema {
 			Optional: true,
 			Computed: true,
 		},
+		"fail_swap_on": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Computed: true,
+		},
 	}
 	return s
 }
@@ -107,6 +112,14 @@ func kubeproxyFields() map[string]*schema.Schema {
 			Type:     schema.TypeMap,
 			Optional: true,
 			Computed: true,
+		},
+		"extra_binds": {
+			Type:     schema.TypeList,
+			Optional: true,
+			Computed: true,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
 		},
 	}
 	return s
