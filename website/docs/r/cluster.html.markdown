@@ -309,6 +309,7 @@ The following arguments are supported for `kube_controller`:
 
 The following arguments are supported for `kubelet`:
 
+* `fail_swap_on` - (Optional/Computed) Enable or disable failing when swap on is not supported (bool)
 * `cluster_dns_server` - (Optional/Computed) Cluster DNS Server option for kubelet service (string)
 * `cluster_domain` - (Optional/Computed) Cluster Domain option for kubelet service (string)
 * `extra_args` - (Optional/Computed) Extra arguments for kubelet service (map)
@@ -316,6 +317,7 @@ The following arguments are supported for `kubelet`:
 The following arguments are supported for `kubeproxy`:
 
 * `extra_args` - (Optional/Computed) Extra arguments for kubeproxy service (map)
+* `extra_binds` - (Optional) Extra binds for kubeproxy service (list)
 
 ### Amazon `eks_config`
 
