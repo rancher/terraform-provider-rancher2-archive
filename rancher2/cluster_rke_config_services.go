@@ -116,7 +116,6 @@ func kubeproxyFields() map[string]*schema.Schema {
 		"extra_binds": {
 			Type:     schema.TypeList,
 			Optional: true,
-			Computed: true,
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
@@ -274,6 +273,10 @@ func flattenKubeproxy(in *managementClient.KubeproxyService) ([]interface{}, err
 
 	if len(in.ExtraArgs) > 0 {
 		obj["extra_args"] = toMapInterface(in.ExtraArgs)
+	}
+
+	if len(in.ExtraBinds) > 0 {
+		obj["extra_binds"] = toArrayInterface(in.ExtraBinds)
 	}
 
 	return []interface{}{obj}, nil
@@ -435,6 +438,10 @@ func expandKubeproxy(p []interface{}) (*managementClient.KubeproxyService, error
 
 	if v, ok := in["extra_args"].(map[string]interface{}); ok && len(v) > 0 {
 		obj.ExtraArgs = toMapString(v)
+	}
+
+	if v, ok := in["extra_binds"].([]interface{}); ok && len(v) > 0 {
+		obj.ExtraBinds = toArrayString(v)
 	}
 
 	return obj, nil
