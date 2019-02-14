@@ -262,6 +262,8 @@ func flattenKubelet(in *managementClient.KubeletService) ([]interface{}, error) 
 		obj["extra_args"] = toMapInterface(in.ExtraArgs)
 	}
 
+	obj["fail_swap_on"] = in.FailSwapOn
+
 	return []interface{}{obj}, nil
 }
 
@@ -413,6 +415,10 @@ func expandKubelet(p []interface{}) (*managementClient.KubeletService, error) {
 		return obj, nil
 	}
 	in := p[0].(map[string]interface{})
+
+	if v, ok := in["fail_swap_on"].(bool); ok {
+		obj.FailSwapOn = v
+	}
 
 	if v, ok := in["cluster_dns_server"].(string); ok && len(v) > 0 {
 		obj.ClusterDNSServer = v
