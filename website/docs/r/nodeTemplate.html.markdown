@@ -8,7 +8,7 @@ description: |-
 
 # rancher2\_node\_template
 
-Provides a Rancher v2 Node Template resource. This can be used to create Node Template for rancher v2 and retrieve their information. 
+Provides a Rancher v2 Node Template resource. This can be used to create Node Template for rancher v2 and retrieve their information.
 
 Only amazonec2, azure and digitalocean drivers are supported for node templates.
 
@@ -128,6 +128,7 @@ The following attributes are exported:
 * `use_private_ip` - (Optional) Use private IP address of the machine to connect. Default `false` (string)
 * `vnet` - (Optional) Azure Virtual Network name to connect the virtual machine (in [resourcegroup:]name format). Default `docker-machine-vnet` (string)
 
+
 ### `digitalocean_config`
 
 #### Arguments
@@ -147,6 +148,44 @@ The following attributes are exported:
 * `tags` - (Optional) Comma-separated list of tags to apply to the Droplet (string)
 * `userdata` - (Optional) Path to file with cloud-init user-data (string)
 
+
+### 'openstack_config'
+
+#### Arguments
+
+* `active-timeout`- OpenStack active timeout (default: 200) (string)
+* `auth-url` - (Required) OpenStack authentication URL (string)
+* `availability-zone` - (Required) OpenStack availability zone (string)
+* `cacert` - (Optional) CA certificate bundle to verify against (string)
+* `config-drive` - (Optional) Enables the OpenStack config drive for the instance (Default: false) (bool)
+* `domain-id` - (Required*) OpenStack domain ID (identity v3 only) (string)
+* `domain-name` - (Required*) OpenStack domain name (identity v3 only) (string)
+* `endpoint-type` - (Optional) OpenStack endpoint type (adminURL, internalURL or publicURL) (string)
+* `flavor-id` - (Required*) OpenStack flavor id to use for the instance (string)
+* `flavor-name` - (Required*) OpenStack flavor name to use for the instance (string)
+* `floatingip-pool` - (Optional) OpenStack floating IP pool to get an IP from to assign to the instance (string)
+* `image-id` - (Required*) OpenStack image id to use for the instance (string)
+* `image-name` - (Required*) OpenStack image name to use for the instance (string)
+* `insecure` - (Optional) Disable TLS credential checking. (bool)
+* `ip-version` - (Optional) OpenStack version of IP address assigned for the machine (default: 4) (string)
+* `keypair-name` - (Optional) OpenStack keypair to use to SSH to the instance (string)
+* `net-id` - (Required*) OpenStack network id the machine will be connected on (string)
+* `net-name` - (Required*) OpenStack network name the machine will be connected on (string)
+* `nova-network` - (Optional) Use the nova networking services instead of neutron. (bool)
+* `password` - (Required) OpenStack password (string)
+* `private-key-file` - (Optional) Private keyfile to use for SSH (absolute path) (string)
+* `region` - (Required) OpenStack region name (string)
+* `sec-groups` - (Optional) OpenStack comma separated security groups for the machine (string)
+* `ssh-port` - (Optional) OpenStack SSH port * (default: 22), (string)
+* `ssh-user` - (Optional) OpenStack SSH user * (default: root), (string)
+* `tenant-id` - (Required*) OpenStack tenant id (string)
+* `tenant-name` - (Required*) OpenStack tenant name (string)
+* `user-data-file` - (Optional) File containing an openstack userdata script (string)
+* `username` - (Required) OpenStack username (string)
+
+> **Note**: `Required*` denotes that either the _name or _id is required but you cannot use both.
+
+
 ## Timeouts
 
 `rancher2_node_template` provides the following
@@ -163,4 +202,3 @@ Node Template can be imported using the rancher Node Template ID
 ```
 $ terraform import rancher2_node_template.foo <node_template_id>
 ```
-

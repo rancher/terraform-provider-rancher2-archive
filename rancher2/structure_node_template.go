@@ -271,6 +271,43 @@ func flattenDigitaloceanConfig(in *digitaloceanConfig) []interface{} {
 	return []interface{}{obj}
 }
 
+func flattenOpenstackConfig(in *openstackConfig) []interface{} {
+	config := make(map[string]interface{})
+
+	config["active_timeout"] = in.ActiveTimeout
+	config["auth_url"] = in.AuthURL
+	config["availability_zone"] = in.AvailabilityZone
+	config["cacert"] = in.CaCert
+	config["config_drive"] = in.ConfigDrive
+	config["domain_id"] = in.DomainID
+	config["domain_name"] = in.DomainName
+	config["endpoint_type"] = in.EndpointType
+	config["flavor_id"] = in.FlavorID
+	config["flavor_name"] = in.FlavorName
+	config["floatingip_pool"] = in.FloatingIPPool
+	config["image_id"] = in.ImageID
+	config["image_name"] = in.ImageName
+	config["insecure"] = in.Insecure
+	config["ip_version"] = in.IPVersion
+	config["keypair_name"] = in.KeypairName
+	config["net_id"] = in.NetID
+	config["net_name"] = in.NetName
+	config["nova_network"] = in.NovaNetwork
+	config["password"] = in.Password
+	config["private_key_file"] = in.PrivateKeyFile
+	config["region"] = in.Region
+	config["sec_groups"] = in.SecGroups
+	config["ssh_port"] = in.SSHPort
+	config["ssh_user"] = in.SSHUser
+	config["tenant_id"] = in.TenantID
+	config["tenant_name"] = in.TenantName
+	config["user_data_file"] = in.UserDataFile
+	config["username"] = in.Username
+
+	out := make([]interface{}, 0, 0)
+	return append(out, config)
+}
+
 func flattenNodeTemplate(d *schema.ResourceData, in *NodeTemplate) error {
 	if in == nil {
 		return nil
@@ -300,6 +337,10 @@ func flattenNodeTemplate(d *schema.ResourceData, in *NodeTemplate) error {
 	case digitaloceanConfigDriver:
 		if in.DigitaloceanConfig == nil {
 			return fmt.Errorf("[ERROR] Node template driver %s requires digitalocean_config", in.Driver)
+		}
+	case openstackConfigDriver:
+		if in.OpenstackConfig == nil {
+			return fmt.Errorf("[ERROR] Node template driver %s requires openstack_config", in.Driver)
 		}
 	default:
 		return fmt.Errorf("[ERROR] Unsupported driver on node template: %s", in.Driver)
@@ -710,6 +751,106 @@ func expandDigitaloceanConfig(p []interface{}) *digitaloceanConfig {
 	return obj
 }
 
+func expandOpenstackConfig(c []interface{}) *openstackConfig {
+	obj := &openstackConfig{}
+	if len(c) == 0 || c[0] == nil {
+		return obj
+	}
+	in := c[0].(map[string]interface{})
+
+	if v, ok := in["active_timeout"].(string); ok && len(v) > 0 {
+		obj.ActiveTimeout = v
+	}
+	if v, ok := in["auth_url"].(string); ok && len(v) > 0 {
+		obj.AuthURL = v
+	}
+	if v, ok := in["availability_zone"].(string); ok && len(v) > 0 {
+		obj.AvailabilityZone = v
+	}
+	if v, ok := in["cacert"].(string); ok && len(v) > 0 {
+		obj.CaCert = v
+	}
+	if v, ok := in["config_drive"].(bool); ok {
+		obj.ConfigDrive = v
+	}
+	if v, ok := in["domain_id"].(string); ok && len(v) > 0 {
+		obj.DomainID = v
+	}
+	if v, ok := in["domain_name"].(string); ok && len(v) > 0 {
+		obj.DomainName = v
+	}
+	if v, ok := in["endpoint_type"].(string); ok && len(v) > 0 {
+		obj.EndpointType = v
+	}
+	if v, ok := in["flavor_id"].(string); ok && len(v) > 0 {
+		obj.FlavorID = v
+	}
+	if v, ok := in["flavor_name"].(string); ok && len(v) > 0 {
+		obj.FlavorName = v
+	}
+	if v, ok := in["floatingip_pool"].(string); ok && len(v) > 0 {
+		obj.FloatingIPPool = v
+	}
+	if v, ok := in["ip_version"].(string); ok && len(v) > 0 {
+		obj.IPVersion = v
+	}
+	if v, ok := in["image_id"].(string); ok && len(v) > 0 {
+		obj.ImageID = v
+	}
+	if v, ok := in["image_name"].(string); ok && len(v) > 0 {
+		obj.ImageName = v
+	}
+	if v, ok := in["insecure"].(bool); ok {
+		obj.Insecure = v
+	}
+	if v, ok := in["ip_version"].(string); ok && len(v) > 0 {
+		obj.IPVersion = v
+	}
+	if v, ok := in["keypair_name"].(string); ok && len(v) > 0 {
+		obj.KeypairName = v
+	}
+	if v, ok := in["net_id"].(string); ok && len(v) > 0 {
+		obj.NetID = v
+	}
+	if v, ok := in["net_name"].(string); ok && len(v) > 0 {
+		obj.NetName = v
+	}
+	if v, ok := in["nova_network"].(bool); ok {
+		obj.NovaNetwork = v
+	}
+	if v, ok := in["password"].(string); ok && len(v) > 0 {
+		obj.Password = v
+	}
+	if v, ok := in["private_key_file"].(string); ok && len(v) > 0 {
+		obj.PrivateKeyFile = v
+	}
+	if v, ok := in["region"].(string); ok && len(v) > 0 {
+		obj.Region = v
+	}
+	if v, ok := in["sec_groups"].(string); ok && len(v) > 0 {
+		obj.SecGroups = v
+	}
+	if v, ok := in["ssh_port"].(string); ok && len(v) > 0 {
+		obj.SSHPort = v
+	}
+	if v, ok := in["ssh_user"].(string); ok && len(v) > 0 {
+		obj.SSHUser = v
+	}
+	if v, ok := in["tenant_id"].(string); ok && len(v) > 0 {
+		obj.TenantID = v
+	}
+	if v, ok := in["tenant_name"].(string); ok && len(v) > 0 {
+		obj.TenantName = v
+	}
+	if v, ok := in["user_data_file"].(string); ok && len(v) > 0 {
+		obj.UserDataFile = v
+	}
+	if v, ok := in["username"].(string); ok && len(v) > 0 {
+		obj.Username = v
+	}
+	return obj
+}
+
 func expandNodeTemplate(in *schema.ResourceData) *NodeTemplate {
 	obj := &NodeTemplate{}
 	if in == nil {
@@ -750,6 +891,11 @@ func expandNodeTemplate(in *schema.ResourceData) *NodeTemplate {
 	if v, ok := in.Get("digitalocean_config").([]interface{}); ok && len(v) > 0 {
 		obj.DigitaloceanConfig = expandDigitaloceanConfig(v)
 		obj.Driver = digitaloceanConfigDriver
+	}
+
+	if v, ok := in.Get("openstack_config").([]interface{}); ok && len(v) > 0 {
+		obj.OpenstackConfig = expandOpenstackConfig(v)
+		obj.Driver = openstackConfigDriver
 	}
 
 	if v, ok := in.Get("engine_env").(map[string]interface{}); ok && len(v) > 0 {
