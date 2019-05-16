@@ -1,3 +1,11 @@
+# DEPRECATED  
+
+Due to rancher2 terraform provider is already officially supported by Hashicorp, this repo is going to be archived .
+
+Please consider using https://github.com/terraform-providers/terraform-provider-rancher2 instead.
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 Terraform Provider for Rancher v2
 ==================================
 
@@ -94,5 +102,4 @@ To update vendor dependencies, edit `vendor.conf` file and run `trash`
 ```sh
 $ trash
 ```
-
 
